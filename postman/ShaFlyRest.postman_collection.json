@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "a0d71976-bb6f-4b04-8feb-f39ac4e91c26",
+		"name": "ShaFlyRest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pipes",
+			"item": [
+				{
+					"name": "Send",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/Users/mrfishchev/Downloads/temp_10GB_file"
+							}
+						},
+						"url": {
+							"raw": "{{ClientApi}}/pipes/send",
+							"host": [
+								"{{ClientApi}}"
+							],
+							"path": [
+								"pipes",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SendAndProcess",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/Users/mrfishchev/Downloads/temp_10GB_file"
+							}
+						},
+						"url": {
+							"raw": "{{ClientApi}}/pipes/process",
+							"host": [
+								"{{ClientApi}}"
+							],
+							"path": [
+								"pipes",
+								"process"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SendAndProcessOptimizedSpan",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/Users/mrfishchev/Downloads/temp_10GB_file"
+							}
+						},
+						"url": {
+							"raw": "{{ClientApi}}/pipes/process/span",
+							"host": [
+								"{{ClientApi}}"
+							],
+							"path": [
+								"pipes",
+								"process",
+								"span"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SendAndProcessOptimizedMemory",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/Users/mrfishchev/Downloads/temp_10GB_file"
+							}
+						},
+						"url": {
+							"raw": "{{ClientApi}}/pipes/process/memory",
+							"host": [
+								"{{ClientApi}}"
+							],
+							"path": [
+								"pipes",
+								"process",
+								"memory"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Streams",
+			"item": [
+				{
+					"name": "Send",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/Users/mrfishchev/Downloads/temp_10GB_file"
+							}
+						},
+						"url": {
+							"raw": "{{ClientApi}}/stream/send",
+							"host": [
+								"{{ClientApi}}"
+							],
+							"path": [
+								"stream",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SendAndProcess",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/Users/mrfishchev/Downloads/temp_10GB_file"
+							}
+						},
+						"url": {
+							"raw": "{{ClientApi}}/stream/process",
+							"host": [
+								"{{ClientApi}}"
+							],
+							"path": [
+								"stream",
+								"process"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SendAndProcessCustomBuffer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/Users/mrfishchev/Downloads/temp_10mb_file"
+							}
+						},
+						"url": {
+							"raw": "{{ClientApi}}/stream/process/buffer?bufferSize=200",
+							"host": [
+								"{{ClientApi}}"
+							],
+							"path": [
+								"stream",
+								"process",
+								"buffer"
+							],
+							"query": [
+								{
+									"key": "bufferSize",
+									"value": "200"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
