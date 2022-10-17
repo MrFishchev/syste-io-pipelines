@@ -14,7 +14,9 @@ public class StreamService : IStreamService
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task SendAndProcess(Stream fileStream, CancellationToken cancellationToken = default)
+    public async Task SendAndProcess(
+        Stream fileStream,
+        CancellationToken cancellationToken = default)
     {
         var buffer = new byte[4096];
         await using var proxyStream = new MemoryStream();
@@ -27,8 +29,9 @@ public class StreamService : IStreamService
         }
 
         proxyStream.Seek(0, SeekOrigin.Begin);
-        var response = await _client.PostAsync(Constants.ScanCloudEndpoint, new StreamContent(proxyStream),
-            cancellationToken);
+        var response = await _client.PostAsync(Constants.ScanCloudEndpoint,
+            new StreamContent(proxyStream), cancellationToken);
+
         response.EnsureSuccessStatusCode();
         _ = _hasher.GetHashAndReset();
     }
@@ -44,7 +47,7 @@ public class StreamService : IStreamService
             _hasher.AppendData(buffer);
             await proxyStream.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
         }
-        
+
         proxyStream.Seek(0, SeekOrigin.Begin);
         var response = await _client.PostAsync(Constants.ScanCloudEndpoint, new StreamContent(proxyStream, bufferSize),
             cancellationToken);

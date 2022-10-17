@@ -1,5 +1,12 @@
-﻿using System.IO.Pipelines;
+﻿using System;
+using System.IO;
+using System.IO.Pipelines;
+using System.Net;
+using System.Net.Http;
+using System.Net.Mime;
 using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Running;
@@ -16,7 +23,7 @@ public class ShaFlyRestBenchmark
 
     private CancellationToken ct => _cts.Token;
     
-    [Benchmark]
+    // [Benchmark]
     public async Task SendUsingPipes()
     {
         using var client = new HttpClient();
@@ -26,7 +33,7 @@ public class ShaFlyRestBenchmark
         response.EnsureSuccessStatusCode();
     }
 
-    [Benchmark]
+    // [Benchmark]
     public async Task SendUsingStream()
     {
         using var client = new HttpClient();
@@ -101,8 +108,33 @@ public class ShaFlyRestBenchmark
         response.EnsureSuccessStatusCode();
         _ = Hasher.GetHashAndReset();
     }
-
+    
     [Benchmark]
+    public async Task SendAndProcessUsingWebSockets()
+    {
+        using var client = new HttpClient();
+        await using var fs = await GetFileStreamAsync(ct);
+        
+        var request = (HttpWebRequest)WebRequest.Create(Constants.ScanCloudEndpoint);
+        request.Method = WebRequestMethods.Http.Post;
+        request.SendChunked = true;
+        request.AllowWriteStreamBuffering = false;
+        request.AllowReadStreamBuffering = false;
+        request.ContentType = MediaTypeNames.Application.Octet;
+
+        var buffer = new byte[4096];
+        await using (var proxyStream = await request.GetRequestStreamAsync())
+        {
+            int read;
+            while ((read = await fs.ReadAsync(buffer, ct)) > 0)
+            {
+                Hasher.AppendData(buffer);
+                await proxyStream.WriteAsync(buffer.AsMemory(0, read), ct);
+            }
+        }
+    }
+
+    // [Benchmark]
     public async Task SendAndProcessUsingOptimizedPipes()
     {
         using var client = new HttpClient();
@@ -148,7 +180,7 @@ public class ShaFlyRestBenchmark
         _ = Hasher.GetHashAndReset();
     }
 
-    [Benchmark]
+    // [Benchmark]
     public async Task SendAndProcessUsingOptimizedPipesAsync()
     {
         using var client = new HttpClient();
@@ -192,7 +224,7 @@ public class ShaFlyRestBenchmark
         _ = Hasher.GetHashAndReset();
     }
 
-    [Benchmark]
+    // [Benchmark]
     public async Task SendAndProcessUsingOptimizedPipesBigBuffer()
     {
         var bufferSize = 8 * 1024;

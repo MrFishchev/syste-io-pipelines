@@ -1,5 +1,6 @@
 using ShaFlyRest.Core.Pipelines;
 using ShaFlyRest.Core.Streams;
+using ShaFlyRest.Core.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IPipelinesService, PipelinesService>();
 builder.Services.AddScoped<IStreamService, StreamService>();
+builder.Services.AddScoped<IWebSocketService, WebSocketService>();
 
 var app = builder.Build();
 
